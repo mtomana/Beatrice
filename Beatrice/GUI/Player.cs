@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Beatrice
+namespace Beatrice.GUI
 {
-    public partial class Form1 : Form
+    public partial class Player : Form
     {
-        public Form1()
+        public Player()
         {
             InitializeComponent();
+        }
+
+        private void Player_Load(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer1.URL = @"D:\vid\6.mp4";
         }
     }
 }
