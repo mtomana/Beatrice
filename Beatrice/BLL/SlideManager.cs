@@ -79,6 +79,7 @@ namespace Beatrice.BLL
 
         public static bool SkipToNextSlide()
         {
+            //todo: sound effect jeżeli to ostatni
             ClickSound();
             var currentOrder = CurrentSlide.Order;
             var nextScene = Slides.OrderBy(p=>p.Order).FirstOrDefault(p => p.Order > currentOrder);
@@ -105,6 +106,7 @@ namespace Beatrice.BLL
 
         public static bool SkipToPreviousSlide()
         {
+            //todo: sound effect jeżeli to pierwszy
             ClickSound();
             var currentOrder = CurrentSlide.Order;
             var prevScene = Slides.OrderByDescending(p => p.Order).FirstOrDefault(p => p.Order < currentOrder);
@@ -119,14 +121,12 @@ namespace Beatrice.BLL
         public static void SkipBackward()
         {
             ClickSound();
-            //przerost formy nad treścią ;)
             ActionSkipBackward.Raise();
         }
 
         public static void SkipForward()
         {
             ClickSound();
-            //przerost formy nad treścią ;)
             ActionSkipForward.Raise();
         }
 
@@ -161,12 +161,14 @@ namespace Beatrice.BLL
 
         public static void VolumeUp()
         {
+            //todo: zmienić na Func<bool> i zwrócić czy już koniec skali, wtedy inny dźwięk
             VolumeSound();
             ActionVolumeUp.Raise();
         }
 
         public static void VolumeDown()
         {
+            //todo: zmienić na Func<bool> i zwrócić czy już koniec skali, wtedy inny dźwięk
             VolumeSound();
             ActionVolumeDown.Raise();
 
