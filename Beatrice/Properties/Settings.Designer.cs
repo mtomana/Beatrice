@@ -22,5 +22,17 @@ namespace Beatrice.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\_Beatrice\\Output\\conf.json")]
+        public string ConfigFileLocation {
+            get {
+                return ((string)(this["ConfigFileLocation"]));
+            }
+            set {
+                this["ConfigFileLocation"] = value;
+            }
+        }
     }
 }
