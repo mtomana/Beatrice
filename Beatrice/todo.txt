@@ -1,0 +1,4 @@
+- koniec/pocz¹tek listy slajdów pikniêcie oraz g³oœnoœæ
+- g³oœnoœæ windows zamiast filmu
+- pe³ny ekran od razu
+- ustawiæ siê na pocz¹tku filmu

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,9 @@ namespace Beatrice.BLL
 
         public static event Action ActionSkipForward;
 
+        public static event Action ActionSetPositionToStart;
+
+
 
 
         public static void Init(Player player)
@@ -50,7 +54,6 @@ namespace Beatrice.BLL
             SlideManager.playerForm = player;
             playerForm.FormClosed += (s, e) =>
             {
-                //    SlideManager.SaveScenes();
                 SlideManager.Dispose();
                 SoundPlayer.Dispose();
                 ClickSoundPlayer.Dispose();
@@ -96,6 +99,10 @@ namespace Beatrice.BLL
             ClickSound();
             if (playerForm.PlayState != WMPLib.WMPPlayState.wmppsPlaying)
             {
+                if(playerForm.PlayState == WMPLib.WMPPlayState.wmppsMediaEnded)
+                {
+                    ActionSetPositionToStart.Raise();
+                }
                 ActionPlay.Raise();
             }
             else

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,27 +24,35 @@ namespace Beatrice.GUI
             SlideManager.ActionSkipBackward += SlideManager_ActionSkipBackward;
             SlideManager.ActionVolumeUp += SlideManager_ActionVolumeUp;
             SlideManager.ActionVolumeDown += SlideManager_ActionVolumeDown;
+            SlideManager.ActionSetPositionToStart += SlideManager_ActionSetPositionToStart;
             axWindowsMediaPlayer.uiMode = "none";
+        }
+
+        private void SlideManager_ActionSetPositionToStart()
+        {
+            axWindowsMediaPlayer.Ctlcontrols.currentPosition = 0;
         }
 
         private void SlideManager_ActionVolumeDown()
         {
-            axWindowsMediaPlayer.settings.volume -= 10;
+            axWindowsMediaPlayer.settings.volume -= 5;
+            VolDown();
         }
 
         private void SlideManager_ActionVolumeUp()
         {
-            axWindowsMediaPlayer.settings.volume += 10;
+            axWindowsMediaPlayer.settings.volume += 5;
+            VolUp();
         }
 
         private void SlideManager_ActionSkipBackward()
         {
-            axWindowsMediaPlayer.Ctlcontrols.currentPosition -= 10;
+            axWindowsMediaPlayer.Ctlcontrols.currentPosition -= 5;
         }
 
         private void SlideManager_ActionSkipForward()
         {
-            axWindowsMediaPlayer.Ctlcontrols.currentPosition += 10;
+            axWindowsMediaPlayer.Ctlcontrols.currentPosition += 5;
         }
 
         private void SlideManager_Pause()
@@ -142,5 +151,34 @@ namespace Beatrice.GUI
                 WindowState = FormWindowState.Maximized;
             }
         }
+
+        private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
+        private const int APPCOMMAND_VOLUME_UP = 0xA0000;
+        private const int APPCOMMAND_VOLUME_DOWN = 0x90000;
+        private const int WM_APPCOMMAND = 0x319;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg,
+            IntPtr wParam, IntPtr lParam);
+
+        private void Mute()
+        {
+            SendMessageW(this.Handle, WM_APPCOMMAND, this.Handle,
+                (IntPtr)APPCOMMAND_VOLUME_MUTE);
+        }
+
+        private void VolDown()
+        {
+            SendMessageW(this.Handle, WM_APPCOMMAND, this.Handle,
+                (IntPtr)APPCOMMAND_VOLUME_DOWN);
+        }
+
+        private void VolUp()
+        {
+            SendMessageW(this.Handle, WM_APPCOMMAND, this.Handle,
+                (IntPtr)APPCOMMAND_VOLUME_UP);
+        }
+
+
     }
 }
