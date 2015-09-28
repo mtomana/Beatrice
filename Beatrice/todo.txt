@@ -1,4 +1,15 @@
 - koniec/pocz¹tek listy slajdów pikniêcie oraz g³oœnoœæ
-- g³oœnoœæ windows zamiast filmu
-- pe³ny ekran od razu
-- ustawiæ siê na pocz¹tku filmu
++ g³oœnoœæ windows zamiast filmu
++ pe³ny ekran od razu
++ ustawiæ siê na pocz¹tku filmu
+- zapêtlaj¹cy siê filmik nr 01, dŸwiêk zamiast tytu³u (np. szum fali), jakieœ zapewnienie, ¿e film idzie
++ dodaæ parametr "zapêtlenie"
+
+Zdjêcie tytu³owe 00:
+"Ty tylko mnie poprowadŸ" - wiêksz¹ czcionk¹
+Podtytu³: Slajdowski z podró¿ny nad Ba³tyk, lipiec 2015 (mniejsza czcionka)
+W tle zdjêcie z drzewami/krzakami
+
+Ostatni "slajd", 11 wybranych zdjêæ. ~14 sekdund na zdjêcie.
+W tle leci "I'm free" + lyrics na zdjêciach.
+Zapêtlone.

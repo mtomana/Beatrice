@@ -19,8 +19,7 @@ namespace Beatrice.BLL
         public string Title { get; set; }
         public string MoviePath { get; set; }
         public string TitlePath { get; set; }
-        //public SoundType TitleSoundType { get; set; }
-
-
+        public bool Loop { get; set; }
+        public bool AutoPlay { get; set; }
     }
 }

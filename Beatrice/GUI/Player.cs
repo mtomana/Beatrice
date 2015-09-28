@@ -25,7 +25,21 @@ namespace Beatrice.GUI
             SlideManager.ActionVolumeUp += SlideManager_ActionVolumeUp;
             SlideManager.ActionVolumeDown += SlideManager_ActionVolumeDown;
             SlideManager.ActionSetPositionToStart += SlideManager_ActionSetPositionToStart;
-            axWindowsMediaPlayer.uiMode = "none";
+            SlideManager.ActionLog += SlideManager_ActionLog;
+            SlideManager.ActionExecInGUI += SlideManager_ActionExecInGUI;
+            //axWindowsMediaPlayer.uiMode = "none";
+        }
+
+        private void SlideManager_ActionExecInGUI(Action action)
+        {
+            this.Invoke((MethodInvoker)(() => action()));
+        }
+
+        private void SlideManager_ActionLog(string obj)
+        {
+            textBox1.AppendText(obj);
+            textBox1.AppendText(Environment.NewLine);
+
         }
 
         private void SlideManager_ActionSetPositionToStart()
@@ -89,11 +103,15 @@ namespace Beatrice.GUI
             axWindowsMediaPlayer.BeginInit();
             SlideManager.Init(this);
 
+            axWindowsMediaPlayer.PlayStateChange += SlideManager.OnPlayStateChanged;
+
             foreach (Control ctrl in Controls)
             {
                 ctrl.TabStop = false;
             }
         }
+
+    
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -179,6 +197,9 @@ namespace Beatrice.GUI
                 (IntPtr)APPCOMMAND_VOLUME_UP);
         }
 
-
+        private void Player_Shown(object sender, EventArgs e)
+        {
+            MinimizeMaximizeForm();
+        }
     }
 }

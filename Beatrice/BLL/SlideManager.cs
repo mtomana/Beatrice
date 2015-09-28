@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using AxWMPLib;
+using System.Threading;
 
 namespace Beatrice.BLL
 {
@@ -37,6 +39,10 @@ namespace Beatrice.BLL
         public static event Action ActionSkipForward;
 
         public static event Action ActionSetPositionToStart;
+
+        public static event Action<string> ActionLog;
+
+        public static event Action<Action> ActionExecInGUI;
 
 
 
@@ -85,7 +91,7 @@ namespace Beatrice.BLL
             //todo: sound effect jeżeli to ostatni
             ClickSound();
             var currentOrder = CurrentSlide.Order;
-            var nextScene = Slides.OrderBy(p=>p.Order).FirstOrDefault(p => p.Order > currentOrder);
+            var nextScene = Slides.OrderBy(p => p.Order).FirstOrDefault(p => p.Order > currentOrder);
             if (nextScene != null)
             {
                 LoadSlide(nextScene);
@@ -94,12 +100,45 @@ namespace Beatrice.BLL
             return false;
         }
 
+        internal static void OnPlayStateChanged(object sender, _WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            Log(string.Format("New state: {0} / {1}", e.newState, (WMPLib.WMPPlayState)e.newState));
+            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                if (CurrentSlide.Loop)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Task.Delay(1000).Wait();
+                        ExecuteInGUIThread(() =>
+                        {
+                            ActionSetPositionToStart.Raise();
+                            ActionPlay.Raise();
+                        });
+                    });
+
+
+                }
+                
+            }
+        }
+
+        private static void ExecuteInGUIThread(Action a)
+        {
+            ActionExecInGUI.Raise(a);
+        }
+
+        private static void Log(string v)
+        {
+            ActionLog(v);
+        }
+
         internal static void PlayPause()
         {
             ClickSound();
             if (playerForm.PlayState != WMPLib.WMPPlayState.wmppsPlaying)
             {
-                if(playerForm.PlayState == WMPLib.WMPPlayState.wmppsMediaEnded)
+                if (playerForm.PlayState == WMPLib.WMPPlayState.wmppsMediaEnded)
                 {
                     ActionSetPositionToStart.Raise();
                 }
@@ -142,13 +181,20 @@ namespace Beatrice.BLL
             CurrentSlide = slide;
             ActionSlideChanged.Raise(slide);
             SayTitle();
+            if (CurrentSlide.AutoPlay)
+            {
+                ActionPlay.Raise();
+            }
         }
 
         public static void SayTitle()
         {
-            SoundPlayer.SoundLocation = CurrentSlide.TitlePath;
-            SoundPlayer.Load();
-            SoundPlayer.Play();
+            if (!string.IsNullOrEmpty(CurrentSlide.TitlePath))
+            {
+                SoundPlayer.SoundLocation = CurrentSlide.TitlePath;
+                SoundPlayer.Load();
+                SoundPlayer.Play();
+            }
         }
 
         public static void ClickSound()
