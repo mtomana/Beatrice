@@ -124,4 +124,13 @@
   <data name="clickVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clickVolume.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="cyk" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cyk.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="plum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\plum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zium.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

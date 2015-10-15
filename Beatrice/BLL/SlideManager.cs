@@ -19,14 +19,16 @@ namespace Beatrice.BLL
         static System.Media.SoundPlayer SoundPlayer;
         static System.Media.SoundPlayer ClickSoundPlayer;
         static System.Media.SoundPlayer VolumeSoundPlayer;
+        static System.Media.SoundPlayer VolumeEndOfScaleSoundPlayer;
+        static System.Media.SoundPlayer EndOfListSoundPlayer;
 
         public static List<Slide> Slides { get; set; }
 
         public static Slide CurrentSlide { get; set; }
 
-        public static event Action ActionVolumeDown;
+        public static event Func<bool> ActionVolumeDown;
 
-        public static event Action ActionVolumeUp;
+        public static event Func<bool> ActionVolumeUp;
 
         public static event Action<Slide> ActionSlideChanged;
 
@@ -56,6 +58,14 @@ namespace Beatrice.BLL
             VolumeSoundPlayer = new System.Media.SoundPlayer(Properties.Resources.clickVolume);
             VolumeSoundPlayer.Load();
 
+            VolumeEndOfScaleSoundPlayer = new System.Media.SoundPlayer(Properties.Resources.cyk);
+            VolumeEndOfScaleSoundPlayer.Load();
+
+            EndOfListSoundPlayer = new System.Media.SoundPlayer(Properties.Resources.zium);
+            EndOfListSoundPlayer.Load();
+
+
+
             Slides = new List<Slide>();
             SlideManager.playerForm = player;
             playerForm.FormClosed += (s, e) =>
@@ -70,7 +80,7 @@ namespace Beatrice.BLL
 
         private static void LoadSlidesDefinitions()
         {
-            var path = Properties.Settings.Default.ConfigFileLocation;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "conf.json");
             if (File.Exists(path))
             {
                 using (StreamReader r2 = new StreamReader(path))
@@ -88,16 +98,25 @@ namespace Beatrice.BLL
 
         public static bool SkipToNextSlide()
         {
-            //todo: sound effect jeżeli to ostatni
-            ClickSound();
             var currentOrder = CurrentSlide.Order;
             var nextScene = Slides.OrderBy(p => p.Order).FirstOrDefault(p => p.Order > currentOrder);
             if (nextScene != null)
             {
+                ClickSound();
                 LoadSlide(nextScene);
                 return true;
             }
-            return false;
+            else
+            {
+                EndOfListSound();
+                return false;
+            }
+
+        }
+
+        private static void EndOfListSound()
+        {
+            EndOfListSoundPlayer.Play();
         }
 
         internal static void OnPlayStateChanged(object sender, _WMPOCXEvents_PlayStateChangeEvent e)
@@ -119,7 +138,7 @@ namespace Beatrice.BLL
 
 
                 }
-                
+
             }
         }
 
@@ -152,16 +171,20 @@ namespace Beatrice.BLL
 
         public static bool SkipToPreviousSlide()
         {
-            //todo: sound effect jeżeli to pierwszy
-            ClickSound();
             var currentOrder = CurrentSlide.Order;
             var prevScene = Slides.OrderByDescending(p => p.Order).FirstOrDefault(p => p.Order < currentOrder);
             if (prevScene != null)
             {
+                ClickSound();
                 LoadSlide(prevScene);
                 return true;
             }
-            return false;
+            else
+            {
+                EndOfListSound();
+                return false;
+            }
+
         }
 
         public static void SkipBackward()
@@ -185,6 +208,18 @@ namespace Beatrice.BLL
             {
                 ActionPlay.Raise();
             }
+
+            if(CurrentSlide.Static)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(3500).Wait();
+                    ExecuteInGUIThread(() =>
+                    {
+                        ActionPause.Raise();
+                    });
+                });
+            }
         }
 
         public static void SayTitle()
@@ -207,6 +242,11 @@ namespace Beatrice.BLL
             VolumeSoundPlayer.Play();
         }
 
+        public static void VolumeEndOfScaleSound()
+        {
+            VolumeEndOfScaleSoundPlayer.Play();
+        }
+
         public static void Dispose()
         {
             SoundPlayer.Dispose();
@@ -214,17 +254,19 @@ namespace Beatrice.BLL
 
         public static void VolumeUp()
         {
-            //todo: zmienić na Func<bool> i zwrócić czy już koniec skali, wtedy inny dźwięk
             VolumeSound();
             ActionVolumeUp.Raise();
+            //if (ActionVolumeUp.Raise())
+            //{
+            //    VolumeEndOfScaleSound();
+            //}
         }
 
         public static void VolumeDown()
         {
-            //todo: zmienić na Func<bool> i zwrócić czy już koniec skali, wtedy inny dźwięk
             VolumeSound();
             ActionVolumeDown.Raise();
-
+            //w dół się nie da przecież powiadomić, że koniec skali :P
         }
     }
 }

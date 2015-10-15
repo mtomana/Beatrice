@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -27,7 +28,16 @@ namespace Beatrice.GUI
             SlideManager.ActionSetPositionToStart += SlideManager_ActionSetPositionToStart;
             SlideManager.ActionLog += SlideManager_ActionLog;
             SlideManager.ActionExecInGUI += SlideManager_ActionExecInGUI;
-            //axWindowsMediaPlayer.uiMode = "none";
+
+
+            labelPosition.Visible = false;
+            timerPosition.Enabled = false;
+            textBox1.Visible = false;
+
+
+            axWindowsMediaPlayer.uiMode = "none";
+
+
         }
 
         private void SlideManager_ActionExecInGUI(Action action)
@@ -47,16 +57,39 @@ namespace Beatrice.GUI
             axWindowsMediaPlayer.Ctlcontrols.currentPosition = 0;
         }
 
-        private void SlideManager_ActionVolumeDown()
+        private bool SlideManager_ActionVolumeDown()
         {
             axWindowsMediaPlayer.settings.volume -= 5;
             VolDown();
+
+            //if (axWindowsMediaPlayer.settings.volume <= 0)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
+
+
+            return false;
         }
 
-        private void SlideManager_ActionVolumeUp()
+        private bool SlideManager_ActionVolumeUp()
         {
             axWindowsMediaPlayer.settings.volume += 5;
             VolUp();
+
+            //if (axWindowsMediaPlayer.settings.volume >= 100)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
+
+            return false;
         }
 
         private void SlideManager_ActionSkipBackward()
@@ -92,7 +125,7 @@ namespace Beatrice.GUI
         private void SlideManager_SlideChanged(Slide slide)
         {
             axWindowsMediaPlayer.Ctlcontrols.stop();
-            axWindowsMediaPlayer.URL = slide.MoviePath;
+            axWindowsMediaPlayer.URL = Path.Combine(Directory.GetCurrentDirectory(), slide.MoviePath);
             axWindowsMediaPlayer.Ctlcontrols.stop();
             labelTitle.Text = slide.Title;
             labelTitle.Visible = true;
@@ -109,6 +142,14 @@ namespace Beatrice.GUI
             {
                 ctrl.TabStop = false;
             }
+
+#if DEBUG
+            labelPosition.Visible = true;
+            timerPosition.Enabled = true;
+            textBox1.Visible = true;
+#endif
+
+            Cursor.Hide();
         }
 
     
@@ -200,6 +241,11 @@ namespace Beatrice.GUI
         private void Player_Shown(object sender, EventArgs e)
         {
             MinimizeMaximizeForm();
+        }
+
+        private void timerPosition_Tick(object sender, EventArgs e)
+        {
+            labelPosition.Text = axWindowsMediaPlayer.Ctlcontrols.currentPositionString;
         }
     }
 }

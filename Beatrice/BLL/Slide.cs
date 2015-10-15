@@ -21,5 +21,6 @@ namespace Beatrice.BLL
         public string TitlePath { get; set; }
         public bool Loop { get; set; }
         public bool AutoPlay { get; set; }
+        public bool Static { get; set; }
     }
 }

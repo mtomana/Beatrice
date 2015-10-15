@@ -16,6 +16,18 @@ namespace Beatrice
             }
         }
 
+        public static T Raise<T>(this Func<T> eventHandler)
+        {
+            if (eventHandler != null)
+            {
+                return eventHandler();
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
         public static void Raise<T>(this Action<T> eventHandler, T parameter)
         {
             if (eventHandler != null)

@@ -77,5 +77,32 @@ namespace Beatrice.Properties {
                 return ResourceManager.GetStream("clickVolume", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream cyk {
+            get {
+                return ResourceManager.GetStream("cyk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream plum {
+            get {
+                return ResourceManager.GetStream("plum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream zium {
+            get {
+                return ResourceManager.GetStream("zium", resourceCulture);
+            }
+        }
     }
 }

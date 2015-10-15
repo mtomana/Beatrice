@@ -14,6 +14,8 @@ namespace Beatrice
         [STAThread]
         static void Main()
         {
+            System.IO.Directory.SetCurrentDirectory(@"D:\_Beatrice\Output");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GUI.Player());

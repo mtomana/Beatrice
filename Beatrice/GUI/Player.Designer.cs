@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Player));
             this.axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.labelTitle = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelPosition = new System.Windows.Forms.Label();
+            this.timerPosition = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,6 +50,8 @@
             // 
             // labelTitle
             // 
+            this.labelTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTitle.BackColor = System.Drawing.Color.Black;
             this.labelTitle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelTitle.ForeColor = System.Drawing.Color.LightGray;
@@ -67,11 +72,28 @@
             this.textBox1.Size = new System.Drawing.Size(151, 311);
             this.textBox1.TabIndex = 2;
             // 
+            // labelPosition
+            // 
+            this.labelPosition.AutoSize = true;
+            this.labelPosition.BackColor = System.Drawing.Color.Black;
+            this.labelPosition.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelPosition.ForeColor = System.Drawing.Color.Silver;
+            this.labelPosition.Location = new System.Drawing.Point(12, 7);
+            this.labelPosition.Name = "labelPosition";
+            this.labelPosition.Size = new System.Drawing.Size(43, 13);
+            this.labelPosition.TabIndex = 3;
+            this.labelPosition.Text = "label1";
+            // 
+            // timerPosition
+            // 
+            this.timerPosition.Tick += new System.EventHandler(this.timerPosition_Tick);
+            // 
             // Player
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 379);
+            this.Controls.Add(this.labelPosition);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.axWindowsMediaPlayer);
@@ -90,5 +112,7 @@
         private System.Windows.Forms.Label labelTitle;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label labelPosition;
+        private System.Windows.Forms.Timer timerPosition;
     }
 }
