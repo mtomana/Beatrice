@@ -109,9 +109,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\clickDefault.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\clickVolume.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\plum.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clickDefault.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
