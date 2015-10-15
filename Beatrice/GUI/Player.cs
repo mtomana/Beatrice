@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -143,11 +144,12 @@ namespace Beatrice.GUI
                 ctrl.TabStop = false;
             }
 
-#if DEBUG
-            labelPosition.Visible = true;
-            timerPosition.Enabled = true;
-            textBox1.Visible = true;
-#endif
+            if (Debugger.IsAttached)
+            {
+                labelPosition.Visible = true;
+                timerPosition.Enabled = true;
+                textBox1.Visible = true;
+            }
 
             Cursor.Hide();
         }
