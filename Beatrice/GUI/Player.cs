@@ -37,7 +37,7 @@ namespace Beatrice.GUI
 
 
             axWindowsMediaPlayer.uiMode = "none";
-
+            axWindowsMediaPlayer.enableContextMenu = false;
 
         }
 
